@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from \"./CustomButton\";","map":{"version":3,"names":["default"],"sources":["/Applications/MAMP/htdocs/Projet_Orgabud/authentication/src/components/CustomButton/index.js"],"sourcesContent":["export {default} from './CustomButton'"],"mappings":"AAAA,SAAQA,OAAR"},"metadata":{},"sourceType":"module"}

@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from \"./SignUpScreen\";","map":{"version":3,"names":["default"],"sources":["/Applications/MAMP/htdocs/native/authentication/src/screens/SignUpScreen/index.js"],"sourcesContent":["export { default } from \"./SignUpScreen\""],"mappings":"AAAA,SAASA,OAAT"},"metadata":{},"sourceType":"module"}

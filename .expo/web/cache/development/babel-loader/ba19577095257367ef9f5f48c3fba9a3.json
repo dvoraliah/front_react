@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from \"./NewPasswordScreen\";","map":{"version":3,"names":["default"],"sources":["/Applications/MAMP/htdocs/Projet_Orgabud/authentication/src/screens/NewPasswordScreen/index.js"],"sourcesContent":["export { default } from \"./NewPasswordScreen\";"],"mappings":"AAAA,SAASA,OAAT"},"metadata":{},"sourceType":"module"}

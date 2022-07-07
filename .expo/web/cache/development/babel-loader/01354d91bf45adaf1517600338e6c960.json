@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from \"./CategorieScreen\";","map":{"version":3,"names":["default"],"sources":["/Applications/MAMP/htdocs/Projet_Orgabud/authentication/src/screens/CategorieScreen/index.js"],"sourcesContent":["export { default } from \"./CategorieScreen\";\n"],"mappings":"AAAA,SAASA,OAAT"},"metadata":{},"sourceType":"module"}

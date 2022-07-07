@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from \"./CustomTable\";","map":{"version":3,"names":["default"],"sources":["/Applications/MAMP/htdocs/Projet_Orgabud/authentication/src/components/CustomTable/index.js"],"sourcesContent":["export { default } from \"./CustomTable\";\n"],"mappings":"AAAA,SAASA,OAAT"},"metadata":{},"sourceType":"module"}

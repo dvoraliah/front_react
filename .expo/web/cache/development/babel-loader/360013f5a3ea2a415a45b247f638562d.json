@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from \"./SocialSignInButtons\";","map":{"version":3,"names":["default"],"sources":["/Applications/MAMP/htdocs/native/authentication/src/components/SocialSignInButtons/index.js"],"sourcesContent":["export { default } from './SocialSignInButtons'; "],"mappings":"AAAA,SAASA,OAAT"},"metadata":{},"sourceType":"module"}
