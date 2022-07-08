@@ -11,6 +11,7 @@ import CustomTable from "../../components/CustomTable";
 const CategorieScreen = ({route}) => {
   const { categorieName, slug } = route.params;
   const [FIELDS, SETFIELDS] = useState([])
+  const [BUDGETS, SETBUDGETS] = useState([])
   const FIELDSDetail = async (arg) => {
     const token = await USER_TOKEN
     const URI = API +  slug +  "/fields"
@@ -24,11 +25,27 @@ const CategorieScreen = ({route}) => {
       SETFIELDS(response.data.champs);
     });
   }
+
+  const BUDGETSDetail = async () => {
+    const token = await USER_TOKEN;
+    const URI = API + "budgets";
+    const response = await axios({
+      method: "get",
+      url: URI,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(function (response) {
+      SETBUDGETS(response.data);
+    });
+  };
+
   useEffect( () => {
     FIELDSDetail();
+    BUDGETSDetail();
   }, []);
-  
-
+// BUDGETSDetail();  
+// console.log(BUDGETS)
 
 
 const navigation = useNavigation();
@@ -41,7 +58,7 @@ const navigation = useNavigation();
           }}
           text="Retour à l'Accueil"
         />
-        {console.log(FIELDS)}
+
         {
           // console.log(FIELDS)
 
@@ -54,7 +71,8 @@ const navigation = useNavigation();
             );
           })
         }
-        <CustomTable />
+        {/* {console.log(BUDGETS)} */}
+        <CustomTable object={FIELDS} budgets={BUDGETS} />
       </View>
     );
 }
