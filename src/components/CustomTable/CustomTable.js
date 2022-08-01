@@ -19,9 +19,8 @@ const CustomTable = ({ budgets, idCategorie}) => {
   return (
     <DataTable>
       <DataTable.Header>
-        
         {/* <DataTable.Title>Date</DataTable.Title> */}
-        <DataTable.Title >Achat</DataTable.Title>
+        <DataTable.Title>Achat</DataTable.Title>
 
         <DataTable.Title numeric>Montant</DataTable.Title>
 
@@ -30,67 +29,70 @@ const CustomTable = ({ budgets, idCategorie}) => {
         <DataTable.Title numeric>Suppr</DataTable.Title>
       </DataTable.Header>
 
-        {budgets.map((budget) => {
-          if(budget.field.field_category_id == idCategorie){
-            console.log(budget)
-            return (
-              <>
-                <DataTable.Row key={budget.id}>
-                  <DataTable.Cell textStyle={styles.align}key={budget.id + budget.field_id}>
-                    <CustomButton
-                      onPress={() => {
-                        console.warn("achat");
-                      }}
-                      text={budget.field.name}
-                      type={"CELL"}
-                    />
-                  </DataTable.Cell>
-                  <DataTable.Cell key={budget.id + budget.value} numeric>
-                    <CustomButton
-                      onPress={() => {
-                        console.warn("montant");
-                      }}
-                      text={budget.value}
-                      type={"CELL"}
-                    />
-                  </DataTable.Cell>
-                  <DataTable.Cell key={budget.id + budget.is_debited} numeric>
-                    <CustomButton
-                      onPress={() => {
-                        console.warn("débité");
-                      }}
-                      text={budget.is_debited}
-                      type={"CELL"}
-                    />
-                  </DataTable.Cell>
-                  <DataTable.Cell key={budget.id + " delete"} numeric>
-                    <CustomButton
-                      onPress={() => {
-                        console.warn("pouet");
-                      }}
-                      text={"X"}
+      {budgets.map((budget) => {
+        if (budget.field.field_category_id == idCategorie) {
+          console.log(budget);
+          return (
+            <>
+              <DataTable.Row key={budget.id}>
+                <DataTable.Cell
+                  textStyle={styles.align}
+                  key={budget.id + budget.field_id}
+                >
+                  <CustomButton
+                    onPress={() => {
+                      console.warn("achat");
+                    }}
+                    text={budget.field.name}
+                    type={"CELL"}
+                  />
+                </DataTable.Cell>
+                <DataTable.Cell key={budget.id + budget.value} numeric>
+                  <CustomButton
+                    onPress={() => {
+                      console.warn("montant");
+                    }}
+                    text={budget.value}
+                    type={"CELL"}
+                  />
+                </DataTable.Cell>
+                <DataTable.Cell key={budget.id + budget.is_debited} numeric>
+                  <CustomButton
+                    onPress={() => {
+                      console.warn("débité");
+                    }}
+                    text={budget.is_debited}
+                    type={"CELL"}
+                  />
+                </DataTable.Cell>
+                <DataTable.Cell key={budget.id + " delete"} numeric>
+                  <CustomButton
+                    onPress={() => {
+                      console.warn("pouet");
+                    }}
+                    text={"X"}
                     // type={"CELL"}
-                    />
-                  </DataTable.Cell>
-                </DataTable.Row>
-              </>
-            );
-          }
-          
-          
-          
-        })}
-       
+                  />
+                </DataTable.Cell>
+              </DataTable.Row>
+            </>
+          );
+        }
+      })}
+
       <DataTable.Row>
         <DataTable.Cell numeric></DataTable.Cell>
         <DataTable.Cell>
-          Nouvelle entrée
+          <CustomButton
+            onPress={() => {
+              console.warn("New");
+            }}
+            text={"Nouvelle entrée"}
+          />
         </DataTable.Cell>
         <DataTable.Cell numeric></DataTable.Cell>
       </DataTable.Row>
-        
-        
-      
+
       <DataTable.Pagination
         page={page}
         numberOfPages={3}

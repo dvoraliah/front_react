@@ -11,21 +11,21 @@ import CustomTable from "../../components/CustomTable";
 const CategorieScreen = ({route}) => {
   const { categorieName, slug, categorieId } = route.params;
   // console.log(categorieId)
-  const [FIELDS, SETFIELDS] = useState([])
+  // const [FIELDS, SETFIELDS] = useState([])
   const [BUDGETS, SETBUDGETS] = useState([])
-  const FIELDSDetail = async (arg) => {
-    const token = await USER_TOKEN
-    const URI = API +  slug +  "/fields"
-    const response = await axios({
-      method: "get",
-      url: URI,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(function (response) {
-      SETFIELDS(response.data.champs);
-    });
-  }
+  // const FIELDSDetail = async (arg) => {
+  //   const token = await USER_TOKEN
+  //   const URI = API +  slug +  "/fields"
+  //   const response = await axios({
+  //     method: "get",
+  //     url: URI,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   }).then(function (response) {
+  //     SETFIELDS(response.data.champs);
+  //   });
+  // }
 
   const BUDGETSDetail = async () => {
     const token = await USER_TOKEN;
@@ -60,18 +60,6 @@ const navigation = useNavigation();
           text="Retour à l'Accueil"
         />
 
-        {
-          // console.log(FIELDS)
-
-          // FIELDS.map((field) => {
-          //   return (
-          //     // console.log(field)
-          //     <Text key={field.slug.toString()} style={styles.text}>
-          //       {field.name}
-          //     </Text>
-          //   );
-          // })
-        }
         {/* {console.log(FIELDS)} */}
         <CustomTable budgets={BUDGETS} idCategorie= {categorieId} />
       </View>

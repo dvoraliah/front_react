@@ -10,5 +10,5 @@ export const API = "http://5.39.76.125/dvoraliah/orgabud-website/public/index.ph
 
 export const GET_TOKEN = async() => AsyncStorage.getItem('token')
 export const USER_TOKEN = GET_TOKEN();
-
+export const GET_USER_ID = async() => AsyncStorage.getItem('user_id')
 

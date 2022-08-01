@@ -24,7 +24,7 @@ const HomeScreen = () => {
   }
   const getCategories = async() => {
     // const token = await getToken()
-    const token = await USER_TOKEN
+    // const token = await USER_TOKEN
     // console.log(token)
     const response = await axios({
       method: "get",

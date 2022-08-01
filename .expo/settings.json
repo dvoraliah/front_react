@@ -5,6 +5,6 @@
   "minify": false,
   "urlRandomness": "tq-m6y",
   "https": false,
-  "scheme": null,
+  "scheme": "exp+authentication",
   "devClient": false
 }
