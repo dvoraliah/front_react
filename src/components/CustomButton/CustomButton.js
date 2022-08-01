@@ -49,6 +49,9 @@ const styles = StyleSheet.create({
   container_TERTIARY: {
     borderWidth: 0,
   },
+  container_CELL: {
+    borderWidth: 0,
+  },
   container_SOCIALCONNECT: {
     borderWidth: 0,
   },
@@ -67,5 +70,11 @@ const styles = StyleSheet.create({
     color: "#e5e7e9",
     textTransform: "none",
     fontStyle: "italic",
+  },
+  text_CELL: {
+    fontWeight: "500",
+    color: "#e5e7e9",
+    textTransform: "none",
+    // fontStyle: "italic",
   },
 });

@@ -9,7 +9,8 @@ import CustomTable from "../../components/CustomTable";
 
 
 const CategorieScreen = ({route}) => {
-  const { categorieName, slug } = route.params;
+  const { categorieName, slug, categorieId } = route.params;
+  // console.log(categorieId)
   const [FIELDS, SETFIELDS] = useState([])
   const [BUDGETS, SETBUDGETS] = useState([])
   const FIELDSDetail = async (arg) => {
@@ -62,17 +63,17 @@ const navigation = useNavigation();
         {
           // console.log(FIELDS)
 
-          FIELDS.map((field) => {
-            return (
-              // console.log(field)
-              <Text key={field.slug.toString()} style={styles.text}>
-                {field.name}
-              </Text>
-            );
-          })
+          // FIELDS.map((field) => {
+          //   return (
+          //     // console.log(field)
+          //     <Text key={field.slug.toString()} style={styles.text}>
+          //       {field.name}
+          //     </Text>
+          //   );
+          // })
         }
-        {/* {console.log(BUDGETS)} */}
-        <CustomTable object={FIELDS} budgets={BUDGETS} />
+        {/* {console.log(FIELDS)} */}
+        <CustomTable budgets={BUDGETS} idCategorie= {categorieId} />
       </View>
     );
 }

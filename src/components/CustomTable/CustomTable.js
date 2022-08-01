@@ -5,8 +5,9 @@ import { DataTable } from "react-native-paper";
 
 const optionsPerPage = [2, 3, 4];
 
-const CustomTable = ({object, budgets}) => {
-
+const CustomTable = ({ budgets, idCategorie}) => {
+  
+  // console.log(idCategorie)
   const [page, setPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
 
@@ -18,86 +19,77 @@ const CustomTable = ({object, budgets}) => {
   return (
     <DataTable>
       <DataTable.Header>
-        <DataTable.Title>Suppr</DataTable.Title>
+        
         {/* <DataTable.Title>Date</DataTable.Title> */}
-        <DataTable.Title>Achat</DataTable.Title>
+        <DataTable.Title >Achat</DataTable.Title>
 
-        <DataTable.Title>Montant</DataTable.Title>
+        <DataTable.Title numeric>Montant</DataTable.Title>
 
-        <DataTable.Title>Débité</DataTable.Title>
+        <DataTable.Title numeric>Débité</DataTable.Title>
+
+        <DataTable.Title numeric>Suppr</DataTable.Title>
       </DataTable.Header>
 
         {budgets.map((budget) => {
-          console.log(budget.id);
-          console.log(object)
+          if(budget.field.field_category_id == idCategorie){
+            console.log(budget)
+            return (
+              <>
+                <DataTable.Row key={budget.id}>
+                  <DataTable.Cell textStyle={styles.align}key={budget.id + budget.field_id}>
+                    <CustomButton
+                      onPress={() => {
+                        console.warn("achat");
+                      }}
+                      text={budget.field.name}
+                      type={"CELL"}
+                    />
+                  </DataTable.Cell>
+                  <DataTable.Cell key={budget.id + budget.value} numeric>
+                    <CustomButton
+                      onPress={() => {
+                        console.warn("montant");
+                      }}
+                      text={budget.value}
+                      type={"CELL"}
+                    />
+                  </DataTable.Cell>
+                  <DataTable.Cell key={budget.id + budget.is_debited} numeric>
+                    <CustomButton
+                      onPress={() => {
+                        console.warn("débité");
+                      }}
+                      text={budget.is_debited}
+                      type={"CELL"}
+                    />
+                  </DataTable.Cell>
+                  <DataTable.Cell key={budget.id + " delete"} numeric>
+                    <CustomButton
+                      onPress={() => {
+                        console.warn("pouet");
+                      }}
+                      text={"X"}
+                    // type={"CELL"}
+                    />
+                  </DataTable.Cell>
+                </DataTable.Row>
+              </>
+            );
+          }
           
-          return (
-            <>
-              <DataTable.Row key={budget.id}>
-                <DataTable.Cell key={budget.id + " delete"}>
-                  <CustomButton
-                    onPress={() => {
-                      console.warn("pouet");
-                    }}
-                    text={"X"}
-                    // type={"TERTIARY"}
-                  />
-                </DataTable.Cell>
-                {/* <DataTable.Cell key={budget.id + budget.created_at}>
-                  Date
-                </DataTable.Cell> */}
-                <DataTable.Cell key={budget.id + budget.field_id}>
-                  <CustomButton
-                    onPress={() => {
-                      console.warn("achat");
-                    }}
-                    text={budget.field_id}
-                    type={"SECONDARY"}
-                  />
-                </DataTable.Cell>
-                <DataTable.Cell key={budget.id + budget.value}>
-                  <CustomButton
-                    onPress={() => {
-                      console.warn("montant");
-                    }}
-                    text={budget.value}
-                    type={"SECONDARY"}
-                  />
-                </DataTable.Cell>
-                <DataTable.Cell key={budget.id + budget.is_debited}>
-                  <CustomButton
-                    onPress={() => {
-                      console.warn("débité");
-                    }}
-                    text={budget.is_debited}
-                    type={"SECONDARY"}
-                  />
-                </DataTable.Cell>
-              </DataTable.Row>
-            </>
-          );
+          
+          
         })}
-        {/* {object.map((arg) => {
-          // console.log(arg)
-          return (
-            <>
-              <DataTable.Cell>
-                <CustomButton
-                  onPress={() => {console.warn("pouet")}}
-                  text={"X"}
-                  type={"TERTIARY"}
-                />
-              </DataTable.Cell>
-
-              <DataTable.Cell key={arg.id}>
-                {arg.created_at.substring(0, 10)}
-              </DataTable.Cell>
-              <DataTable.Cell key={arg.name}>{arg.name}</DataTable.Cell>
-            </>
-          );
-        // <DataTable.Cell>{arg.name}</DataTable.Cell>
-          // <DataBase.Cell key={field.slug.toString()}></DataBase.Cell>
-        })} */}
+       
+      <DataTable.Row>
+        <DataTable.Cell numeric></DataTable.Cell>
+        <DataTable.Cell>
+          Nouvelle entrée
+        </DataTable.Cell>
+        <DataTable.Cell numeric></DataTable.Cell>
+      </DataTable.Row>
+        
+        
       
       <DataTable.Pagination
         page={page}
@@ -114,3 +106,24 @@ const CustomTable = ({object, budgets}) => {
   );
 };
 export default CustomTable;
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    color: "white",
+    width: "100%",
+    borderColor: "salmon",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 5,
+  },
+  center_cell: {
+    color: "black",
+    fontStyle: "italic"
+  },
+  align: {
+    marginTop: 20,
+    height: '150%',
+  },
+});

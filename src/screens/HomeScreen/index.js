@@ -16,10 +16,10 @@ const HomeScreen = () => {
   const goBackSignPress = () => {
     navigation.navigate("SignIn");
   };
-  const categorieOnPress = (name, slug) => {
+  const categorieOnPress = (name, slug, id) => {
     // console.log(slug)
     navigation.navigate("Categorie", {
-      categorieName: name, slug,
+      categorieName: name, slug: slug, categorieId : id
     });
   }
   const getCategories = async() => {
@@ -61,7 +61,7 @@ const HomeScreen = () => {
         {dataCategories.map((categorie) => {
           // console.log(categorie.slug)
           return (
-            <CustomButton key={categorie.slug.toString()}onPress={() => categorieOnPress(categorie.name,categorie.slug)} text={categorie.name} />
+            <CustomButton key={categorie.slug.toString()}onPress={() => categorieOnPress(categorie.name,categorie.slug, categorie.id)} text={categorie.name} />
           );
         })}
         
