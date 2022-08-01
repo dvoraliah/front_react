@@ -6,20 +6,21 @@ import Checkbox from "expo-checkbox";
 import DatePicker from "react-native-datepicker";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { API, USER_TOKEN } from "../../services/env";
+import { API, USER_TOKEN, USER_ID } from "../../services/env";
 import CustomRedirectAlert from "../../components/CustomRedirectAlert";
 import CustomPicker from "../../components/CustomPicker/CustomPicker";
 
-const NewEntryBudgetScreen = ({ route }) => {
-    // const { categorieId } = route.params;
-    const categorieId = 2;
-  const [isChecked, setChecked] = useState(false);
+const NewEntryBudgetScreen =  ({ route }) => {
+    const { categorie_id, user_id } = route.params;
+    // console.log(route.params)
+    // const categorieId = 2;
+  const [isDebited, setChecked] = useState(false);
   const [date, setDate] = useState(new Date());
   const [fieldsList, setFieldsList] = useState([]);
   const [champs, setChamps] = useState([]);
-  const [montant, setMontant] = useState('');
+  const [value, setMontant] = useState('');
   const OnAddToBudgetPress = () => {
-      console.warn(montant, isChecked)
+      console.warn("montant " + value, "Coché "+ isDebited, "user_id " + user_id, "categorie_id " + categorie_id)
   }
 
   const recupCategories = async (arg) => {
@@ -29,10 +30,11 @@ const NewEntryBudgetScreen = ({ route }) => {
       method: "get",
       url: URI,
       headers: {
-        //   Authorization: `Bearer ${token}`,
-        Authorization: `Bearer 1|aIU9qWxRucCX07iauIygbsN24g1dhJjjdwduORhH`,
+          Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer 1|aIU9qWxRucCX07iauIygbsN24g1dhJjjdwduORhH`,
       },
     }).then(function (response) {
+      console.log(URI);
       setFieldsList(response.data);
     });
   };
@@ -40,7 +42,7 @@ const NewEntryBudgetScreen = ({ route }) => {
     recupCategories();
   }, []);
   fieldsList.map((field) => {
-      if(categorieId == field.field_category_id){
+      if(categorie_id == field.field_category_id){
     // console.log(field)
     champs.push({ label: field.name, value: field.slug });
 }
@@ -51,9 +53,9 @@ const NewEntryBudgetScreen = ({ route }) => {
     <ScrollView>
       <View>
         <Text>Formulaire de nouvelle entrée budget</Text>
-        <CustomPicker list={champs} categorieId={categorieId} />
+        <CustomPicker list={champs} categorieId={categorie_id} />
         {/* <CustomInput placeholder={"Nom du Champs"} value={""} setValue={""} /> */}
-        <CustomInput placeholder={"Montant"} value={montant} setValue={setMontant} />
+        <CustomInput placeholder={"Montant"} value={value} setValue={setMontant} />
         <Text style={styles.labelDate}>Date de Dépense</Text>
         <DatePicker
           style={styles.datePickerStyle}
@@ -107,9 +109,9 @@ const NewEntryBudgetScreen = ({ route }) => {
 
         <Checkbox
           style={styles.checkbox}
-          value={isChecked}
+          value={isDebited}
           onValueChange={setChecked}
-          color={isChecked ? "green" : undefined}
+          color={isDebited ? "green" : undefined}
         />
         <Text style={styles.checkboxLabel}>Débité</Text>
 

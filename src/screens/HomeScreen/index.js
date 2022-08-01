@@ -10,7 +10,7 @@ import axios from "axios";
 
 const HomeScreen = () => {
   const [dataCategories, setDataCategories] = useState([]);
-  // const getToken = async() => AsyncStorage.getItem('token')
+  // console.warn(USER_TOKEN)
   const navigation = useNavigation();
   const URI = API + "categories"
   const goBackSignPress = () => {
@@ -23,9 +23,7 @@ const HomeScreen = () => {
     });
   }
   const getCategories = async() => {
-    // const token = await getToken()
-    // const token = await USER_TOKEN
-    // console.log(token)
+    const token = await USER_TOKEN
     const response = await axios({
       method: "get",
       url: URI,

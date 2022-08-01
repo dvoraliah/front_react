@@ -2,6 +2,9 @@ import React, {useState, useEffect} from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import CustomButton from "../CustomButton"
 import { DataTable } from "react-native-paper";
+import { USER_ID } from "../../services/env";
+import { useNavigation } from "@react-navigation/native";
+
 
 const optionsPerPage = [2, 3, 4];
 
@@ -10,12 +13,31 @@ const CustomTable = ({ budgets, idCategorie}) => {
   // console.log(idCategorie)
   const [page, setPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
+  const [user_id, setUserId] = useState("");
+  const navigation = useNavigation();
+
+  const getUserId = async() => {
+    setUserId(await USER_ID);
+    // console.log(user_id);
+  }
+  getUserId();
+
+  const onNewEntryPress = async () => {
+    setUserId(await USER_ID);
+    navigation.navigate("NewEntry", {
+      user_id: user_id,
+      categorie_id: idCategorie,
+    });
+  };
+
+    
 
   useEffect(() => {
+    
     setPage(0);
   }, [itemsPerPage]);
 
-  
+  // console.log(user_id)
   return (
     <DataTable>
       <DataTable.Header>
@@ -83,12 +105,7 @@ const CustomTable = ({ budgets, idCategorie}) => {
       <DataTable.Row>
         <DataTable.Cell numeric></DataTable.Cell>
         <DataTable.Cell>
-          <CustomButton
-            onPress={() => {
-              console.warn("New");
-            }}
-            text={"Nouvelle entrée"}
-          />
+          <CustomButton onPress={onNewEntryPress} text={"Nouvelle entrée"} />
         </DataTable.Cell>
         <DataTable.Cell numeric></DataTable.Cell>
       </DataTable.Row>

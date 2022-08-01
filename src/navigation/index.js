@@ -24,13 +24,13 @@ const Navigation = () => {
     return (
       <NavigationContainer theme={MyTheme} style={styles.root}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name="SignIn" component={SignInScreen} />
+           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
           <Stack.Screen name="ForgotPassWord" component={ForgotPassWordScreen} />
           <Stack.Screen name="NewPassWord" component={NewPasswordScreen} /> 
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Categorie" component={CategorieScreen} />*/}
+          <Stack.Screen name="Categorie" component={CategorieScreen} />
           <Stack.Screen name="NewEntry" component={NewEntryBudgetScreen} />
         </Stack.Navigator>
       </NavigationContainer>

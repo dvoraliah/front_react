@@ -4,7 +4,7 @@ import Logo from "../../../assets/images/orgabud_with_title.png";
 import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import SocialSignInButtons from "../../components/SocialSignInButtons";
-import { API } from '../../services/env';
+import { API, USER_TOKEN, USER_ID } from "../../services/env";
 import { useNavigation } from '@react-navigation/native'
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,13 +12,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const SignInScreen = () => {
   const [email, setEmail]= useState('');
   const [token, setToken] = useState('');
+  const [user_id, set_user_id] = useState('');
   const [password, setPassword] = useState('');
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
-  const saveToken =  async ( token ) => {
+  const saveToken =  async ( token, user_id ) => {
     try {
       // console.warn(token);
       AsyncStorage.setItem("token", token);
+      AsyncStorage.setItem("user_id", user_id.toString());
+      // console.log(US)
+      // console.warn(USER_TOKEN);
       navigation.navigate('Home')
     } catch (error) {
       // console.warn(error)
@@ -43,7 +47,8 @@ const SignInScreen = () => {
         // console.warn(state)        
         response.status == 201
           ? saveToken(
-              response.data.token
+              response.data.token,
+              response.data.user.id
             ) /* navigation.navigate('Home', {
             token : response.data.token,
           })  */

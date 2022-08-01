@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { View, Text, StyleSheet} from 'react-native'
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from "@react-navigation/native";
-import { API, USER_TOKEN } from "../../services/env";
+import { API, USER_TOKEN} from "../../services/env";
 import axios from "axios";
 import CustomTable from "../../components/CustomTable";
 
@@ -29,6 +29,7 @@ const CategorieScreen = ({route}) => {
 
   const BUDGETSDetail = async () => {
     const token = await USER_TOKEN;
+    // console.warn(USER_TOKEN)
     const URI = API + "budgets";
     const response = await axios({
       method: "get",
@@ -42,7 +43,7 @@ const CategorieScreen = ({route}) => {
   };
 
   useEffect( () => {
-    FIELDSDetail();
+    // FIELDSDetail();
     BUDGETSDetail();
   }, []);
 // BUDGETSDetail();  
