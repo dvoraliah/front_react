@@ -13,6 +13,7 @@ const SignUpScreen = () => {
     const navigation = useNavigation();
     
     const onSignUpPress = () => {
+        
         navigation.navigate("ConfirmEmail")
     }
 

@@ -1,12 +1,14 @@
 import React, {useState} from 'react'
 import { View, Text, StyleSheet} from 'react-native'
-import DropDownPicker from "react-native-dropdown-picker";
+// import DropDownPicker from "react-native-dropdown-picker";
 
 
-const CustomPicker = ({list}) => {
+const CustomPicker = ({list, pickValue, setValue}) => {
     const [open, setOpen] = useState(false);
-    const [pickValue, setValue] = useState(null);
+    // const [pickValue, setValue] = useState(null);
     const [items, setItems] = useState(list);
+    //setItems(list)
+
     return (
       <DropDownPicker
         placeholder="Choisir un champs"
@@ -19,6 +21,7 @@ const CustomPicker = ({list}) => {
       />
     );
 }
+
 
 export default CustomPicker
 

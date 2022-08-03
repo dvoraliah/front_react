@@ -4,26 +4,54 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import Checkbox from "expo-checkbox";
 import DatePicker from "react-native-datepicker";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 import axios from "axios";
 import { API, USER_TOKEN, USER_ID } from "../../services/env";
-import CustomRedirectAlert from "../../components/CustomRedirectAlert";
-import CustomPicker from "../../components/CustomPicker/CustomPicker";
+import moment from "moment";
+import DropDownPicker from "react-native-dropdown-picker";
+
 
 const NewEntryBudgetScreen =  ({ route }) => {
-    const { categorie_id, user_id } = route.params;
-    // console.log(route.params)
-    // const categorieId = 2;
+
+  const { categorie_id, user_id } = route.params;
   const [isDebited, setChecked] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [dateExpense, setDateExpense] = useState(moment().format("DD-MM-YYYY"));
   const [fieldsList, setFieldsList] = useState([]);
-  const [champs, setChamps] = useState([]);
+  var champs = []
   const [value, setMontant] = useState('');
-  const OnAddToBudgetPress = () => {
-      console.warn("montant " + value, "Coché "+ isDebited, "user_id " + user_id, "categorie_id " + categorie_id)
+  const [open, setOpen] = useState(false);
+  const [pickValue, setValue] = useState(null);
+  const [items, setItems] = useState();
+  const navigation = useNavigation();
+  const [slugCategorie, setSlugCategorie] = useState('');
+  const [nameCategorie, setNameCategorie] = useState('');
+  const OnAddToBudgetPress = async() => {
+    const token = await USER_TOKEN;
+    const URI = API + "budgets";
+    const response = await axios({
+      method: "post",
+      url: URI,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        value: value,
+        field_id: pickValue,
+        user_id: user_id,
+        month: dateExpense.substr(3, 2),
+        year: dateExpense.substr(6, 4),
+      },
+    }).then(function () {
+      navigation.push("Categorie", {
+        categorieName: nameCategorie,
+        slug: slugCategorie,
+        categorieId: categorie_id,
+      });
+    });  
   }
 
   const recupCategories = async (arg) => {
+    // setChamps([]);
     const token = await USER_TOKEN;
     const URI = API + "fields";
     const response = await axios({
@@ -33,33 +61,57 @@ const NewEntryBudgetScreen =  ({ route }) => {
           Authorization: `Bearer ${token}`,
         // Authorization: `Bearer 1|aIU9qWxRucCX07iauIygbsN24g1dhJjjdwduORhH`,
       },
-    }).then(function (response) {
+    }).then(function async(response) {
       console.log(URI);
+      
       setFieldsList(response.data);
     });
   };
   useEffect(() => {
     recupCategories();
   }, []);
-  fieldsList.map((field) => {
-      if(categorie_id == field.field_category_id){
-    // console.log(field)
-    champs.push({ label: field.name, value: field.slug });
-}
-  });
 
-  // console.log(champs)
+  console.log(nameCategorie)
+    fieldsList.map((field) => {
+      const index = champs.findIndex((object) => object.id === field.id);
+        if(categorie_id == field.field_category_id){
+          if (index === -1) {  
+            if(slugCategorie == ''){
+              setSlugCategorie(field.field_category.slug)
+              setNameCategorie(field.field_category.name)
+            }
+            champs.push({label: field.name, value: field.id });
+          }
+      }
+    });
+
+
+  
+
+  
   return (
     <ScrollView>
       <View>
         <Text>Formulaire de nouvelle entrée budget</Text>
-        <CustomPicker list={champs} categorieId={categorie_id} />
+        <DropDownPicker
+          placeholder="Choisir un champs"
+          open={open}
+          value={pickValue}
+          items={champs}
+          setOpen={setOpen}
+          setValue={setValue}
+          // setItems={setItems}
+        />
         {/* <CustomInput placeholder={"Nom du Champs"} value={""} setValue={""} /> */}
-        <CustomInput placeholder={"Montant"} value={value} setValue={setMontant} />
+        <CustomInput
+          placeholder={"Montant"}
+          value={value}
+          setValue={setMontant}
+        />
         <Text style={styles.labelDate}>Date de Dépense</Text>
         <DatePicker
           style={styles.datePickerStyle}
-          date={date} //initial date from state
+          date={dateExpense} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
           format="DD-MM-YYYY"
@@ -78,32 +130,7 @@ const NewEntryBudgetScreen =  ({ route }) => {
             },
           }}
           onDateChange={(date) => {
-            setDate(date);
-          }}
-        />
-        <Text style={styles.labelDate}>Date de prévue du débit</Text>
-        <DatePicker
-          style={styles.datePickerStyle}
-          date={date} //initial date from state
-          mode="date" //The enum of date, datetime and time
-          placeholder="select date"
-          format="DD-MM-YYYY"
-          confirmBtnText="Ok"
-          cancelBtnText="Annuler"
-          customStyles={{
-            dateIcon: {
-              // display: 'none',
-              position: "absolute",
-              left: 0,
-              // top: 4,
-              marginLeft: 0,
-            },
-            dateInput: {
-              marginLeft: 36,
-            },
-          }}
-          onDateChange={(date) => {
-            setDate(date);
+            setDateExpense(date);
           }}
         />
 
