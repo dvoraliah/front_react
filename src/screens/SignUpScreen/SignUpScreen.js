@@ -4,6 +4,9 @@ import CustomInput from '../../components/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import SocialSignInButtons from '../../components/SocialSignInButtons'
 import { useNavigation } from '@react-navigation/native'
+import { API, USER_ID, USER_TOKEN } from "../../services/env"
+import axios from "axios"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUpScreen = () => {
     const [username, setUsername]= useState('');
@@ -12,10 +15,25 @@ const SignUpScreen = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const navigation = useNavigation();
     
-    const onSignUpPress = () => {
-        
-        navigation.navigate("ConfirmEmail")
-    }
+  const onSignUpPress = async () => {
+    const URI = API + "register";
+    console.log(URI)
+    const response = await axios({
+      method: "post",
+      url: URI,
+      data: {
+        name: username,
+        email: email,
+        password: password,
+        password_confirmation: confirmPassword,
+      },
+    }).then(function (response) {
+      AsyncStorage.setItem("token", response.data.token);
+      AsyncStorage.setItem("user_id", response.data.donnees.id.toString());
+      navigation.navigate('Home');
+    });  
+  // console.warn("Enregistrer "+ username + " " + email + " " + password + " " + confirmPassword)
+  }
 
 
     const onAlreadyRegisterPress = () => {
@@ -81,7 +99,6 @@ const styles = StyleSheet.create({
   root: {
     padding: 10,
     alignItems: "center",
-    // backgroundColor: "#f5b7b1",
   },
   title: {
     textTransform: "capitalize",
@@ -90,10 +107,12 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   text: {
-    color: "#fff",
+    color: "#5b712c",
     marginVertical: 10,
+    fontWeight: "200",
   },
   link: {
-    color: "salmon",
+    color: "#5b712c",
+    fontWeight: "normal",
   },
 });

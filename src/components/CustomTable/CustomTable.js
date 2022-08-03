@@ -6,16 +6,18 @@ import { USER_ID, USER_TOKEN, API } from "../../services/env";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const optionsPerPage = [2, 3, 4];
 
 const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie}) => {
-  
+
   const [page, setPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
-  const addIcon = <Icon name="plus" size={60} color="#fff" />;
+  const addIcon = <Icon name="plus" size={55} color="#fff" />;
   const deleteIcon = <Icon name="trash" size={30} color="red" />;
+
   const [user_id, setUserId] = useState("");
   const [token, setToken] = useState("");
   const navigation = useNavigation();
@@ -28,8 +30,8 @@ const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie}) => {
   };
   var totalSomme = 0;
   const fillUserValues = async () => {
-    setToken(await USER_TOKEN)
-    setUserId(await USER_ID);
+    setToken(await AsyncStorage.getItem("token"));
+    setUserId(await AsyncStorage.getItem("user_id"));
   }
   fillUserValues();
 
@@ -127,12 +129,12 @@ const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie}) => {
   return (
     <DataTable>
       <DataTable.Header>
-        <DataTable.Title>Achat</DataTable.Title>
-
+        <DataTable.Title>Date</DataTable.Title>
+        <DataTable.Title numeric>Achat</DataTable.Title>
         <DataTable.Title numeric>Montant</DataTable.Title>
-
-        <DataTable.Title numeric>Débité</DataTable.Title>
-
+        <DataTable.Title numeric>
+          {idCategorie == 1 ? "Encaissé" : "Débité"}
+        </DataTable.Title>
         <DataTable.Title numeric>Suppr</DataTable.Title>
       </DataTable.Header>
 
@@ -141,6 +143,9 @@ const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie}) => {
           return (
             <>
               <DataTable.Row key={budget.id}>
+                <DataTable.Cell>
+                  {budget.month + "/" + budget.year}
+                </DataTable.Cell>
                 <DataTable.Cell
                   textStyle={styles.align}
                   key={budget.id + budget.field_id}
@@ -190,7 +195,15 @@ const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie}) => {
       </DataTable.Row>
 
       <DataTable.Row style={{ borderBottomWidth: 0 }}>
-        <DataTable.Cell textStyle={{ marginRight: "auto", marginLeft: "auto", marginTop: 50, height:75, width:75 }}>
+        <DataTable.Cell
+          textStyle={{
+            marginRight: "auto",
+            marginLeft: "auto",
+            marginTop: 50,
+            height: 70,
+            width: 70,
+          }}
+        >
           <CustomButton onPress={onNewEntryPress} text={addIcon} type={"ADD"} />
         </DataTable.Cell>
       </DataTable.Row>
@@ -224,10 +237,14 @@ const styles = StyleSheet.create({
   },
   center_cell: {
     color: "black",
-    fontStyle: "italic"
+    fontStyle: "italic",
   },
   align: {
     marginTop: 20,
-    height: '150%',
+    height: "150%",
   },
+  title: {
+    textAlign: "center",
+    fontSize : 30
+  }
 });

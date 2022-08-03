@@ -4,26 +4,27 @@ import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { API, USER_TOKEN } from "../../services/env";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
 
 const HomeScreen = () => {
   const [dataCategories, setDataCategories] = useState([]);
-  // console.warn(USER_TOKEN)
   const navigation = useNavigation();
   const URI = API + "categories"
-  const goBackSignPress = () => {
-    navigation.navigate("SignIn");
+  const goBackSignPress = async () => {
+    AsyncStorage.setItem('token', "")
+    AsyncStorage.setItem("user_id", "");
+    navigation.navigate("SignIn")
   };
   const categorieOnPress = (name, slug, id) => {
-    // console.log(slug)
     navigation.navigate("Categorie", {
       categorieName: name, slug: slug, categorieId : id
     });
   }
   const getCategories = async() => {
-    const token = await USER_TOKEN
+    const token = await AsyncStorage.getItem("token");
     const response = await axios({
       method: "get",
       url: URI,
@@ -50,7 +51,7 @@ const HomeScreen = () => {
         </Text>
         <CustomButton
           onPress={goBackSignPress}
-          text={"Retourner à l'authentification "}
+          text={"Déconnexion"}
         />
         <Text style={{ fontSize: 20, alignContent: "center"}}>
           Catégories

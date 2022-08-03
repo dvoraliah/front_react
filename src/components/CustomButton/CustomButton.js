@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: "white",
     width: "100%",
-    borderColor: "salmon",
+    borderColor: "#5b712c",
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
@@ -39,10 +39,10 @@ const styles = StyleSheet.create({
   },
 
   container_PRIMARY: {
-    backgroundColor: "salmon",
+    backgroundColor: "#5b712c",
   },
   container_SECONDARY: {
-    borderColor: "salmon",
+    borderColor: "#5b712c",
     borderWidth: 2,
   },
 
@@ -69,18 +69,18 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   text_SECONDARY: {
-    color: "salmon",
+    color: "#0B3B0B",
   },
 
   text_TERTIARY: {
     fontWeight: "300",
-    color: "#e5e7e9",
+    color: "#5b712c",
     textTransform: "none",
     fontStyle: "italic",
   },
   text_CELL: {
     fontWeight: "500",
-    color: "#e5e7e9",
+    color: "#5b712c",
     textTransform: "none",
     // fontStyle: "italic",
   },

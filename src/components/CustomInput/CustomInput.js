@@ -18,18 +18,14 @@ const CustomInput = ({ value, setValue, placeholder, secureTextEntry = false}) =
 export default CustomInput
 
 const styles = StyleSheet.create({
-    container:{
-        // alignItems: 'center',
-        backgroundColor: 'white',
-        width: '100%',
-        borderColor: 'salmon',
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 10,
-        marginVertical: 5,
-
-    },
-    input:{
-
-    }
-})
+  container: {
+    backgroundColor: "white",
+    width: "100%",
+    borderColor: "#5b712c",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 5,
+  },
+  input: {},
+});

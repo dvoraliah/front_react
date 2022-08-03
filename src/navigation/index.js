@@ -18,7 +18,7 @@ const Navigation = () => {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      background: "#caf9be",
+      background: "#E6F8E0",
     },
   };
     return (

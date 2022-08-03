@@ -9,6 +9,7 @@ import axios from "axios";
 import { API, USER_TOKEN, USER_ID } from "../../services/env";
 import moment from "moment";
 import DropDownPicker from "react-native-dropdown-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const NewEntryBudgetScreen =  ({ route }) => {
@@ -34,7 +35,7 @@ const NewEntryBudgetScreen =  ({ route }) => {
     });
   };
   const OnAddToBudgetPress = async() => {
-    const token = await USER_TOKEN;
+    const token = await AsyncStorage.getItem("token");
     const URI = API + "budgets";
     const response = await axios({
       method: "post",
@@ -55,7 +56,7 @@ const NewEntryBudgetScreen =  ({ route }) => {
   }
   const recupCategories = async (arg) => {
     // setChamps([]);
-    const token = await USER_TOKEN;
+    const token = await AsyncStorage.getItem("token");
     const URI = API + "fields";
     const response = await axios({
       method: "get",

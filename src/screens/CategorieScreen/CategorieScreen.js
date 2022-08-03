@@ -5,18 +5,24 @@ import { useNavigation } from "@react-navigation/native";
 import { API, USER_TOKEN} from "../../services/env";
 import axios from "axios";
 import CustomTable from "../../components/CustomTable";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/FontAwesome";
+import moment from "moment";
 
 
 
 const CategorieScreen = ({route}) => {
+  // console.warn(USER_TOKEN)
+  const [actualMonth, setActualMonth] = useState(moment().format("MMMM"));
   const { categorieName, slug, categorieId } = route.params;
   // console.log(categorieId)
   // const [FIELDS, SETFIELDS] = useState([])
   const [BUDGETS, SETBUDGETS] = useState([])
-
+    const leftIcon = <Icon name="caret-left" size={30} color="red" />;
+    const rightIcon = <Icon name="caret-right" size={30} color="red" />;
 
   const BUDGETSDetail = async () => {
-    const token = await USER_TOKEN;
+    const token = await AsyncStorage.getItem("token");
     // console.warn(USER_TOKEN)
     const URI = API + "budgets";
     const response = await axios({
@@ -50,7 +56,23 @@ const navigation = useNavigation();
         />
 
         {/* {console.log(FIELDS)} */}
-        <CustomTable budgets={BUDGETS} idCategorie= {categorieId} categorieName = {categorieName} slugCategorie={slug}/>
+        <Text style={styles.title}>
+          {/* <CustomButton
+            onPress={""}
+            text={leftIcon}
+          /> */}
+          {actualMonth}
+          {/* <CustomButton
+            onPress={""}           
+            text={rightIcon}
+          /> */}
+        </Text>
+        <CustomTable
+          budgets={BUDGETS}
+          idCategorie={categorieId}
+          categorieName={categorieName}
+          slugCategorie={slug}
+        />
       </View>
     );
 }
