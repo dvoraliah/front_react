@@ -13,19 +13,7 @@ const CategorieScreen = ({route}) => {
   // console.log(categorieId)
   // const [FIELDS, SETFIELDS] = useState([])
   const [BUDGETS, SETBUDGETS] = useState([])
-  // const FIELDSDetail = async (arg) => {
-  //   const token = await USER_TOKEN
-  //   const URI = API +  slug +  "/fields"
-  //   const response = await axios({
-  //     method: "get",
-  //     url: URI,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   }).then(function (response) {
-  //     SETFIELDS(response.data.champs);
-  //   });
-  // }
+
 
   const BUDGETSDetail = async () => {
     const token = await USER_TOKEN;
@@ -62,7 +50,7 @@ const navigation = useNavigation();
         />
 
         {/* {console.log(FIELDS)} */}
-        <CustomTable budgets={BUDGETS} idCategorie= {categorieId} />
+        <CustomTable budgets={BUDGETS} idCategorie= {categorieId} categorieName = {categorieName} slugCategorie={slug}/>
       </View>
     );
 }

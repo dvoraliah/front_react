@@ -71,6 +71,6 @@ export default HomeScreen
 const styles = StyleSheet.create({
   root: {
     padding: 10,
-    backgroundColor: "#f5b7b1",
+    // backgroundColor: "#f5b7b1",
   },
 });

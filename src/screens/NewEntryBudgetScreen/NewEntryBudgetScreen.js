@@ -25,6 +25,14 @@ const NewEntryBudgetScreen =  ({ route }) => {
   const navigation = useNavigation();
   const [slugCategorie, setSlugCategorie] = useState('');
   const [nameCategorie, setNameCategorie] = useState('');
+
+  const returnCategorie = () => {
+    navigation.push("Categorie", {
+      categorieName: nameCategorie,
+      slug: slugCategorie,
+      categorieId: categorie_id,
+    });
+  };
   const OnAddToBudgetPress = async() => {
     const token = await USER_TOKEN;
     const URI = API + "budgets";
@@ -42,14 +50,9 @@ const NewEntryBudgetScreen =  ({ route }) => {
         year: dateExpense.substr(6, 4),
       },
     }).then(function () {
-      navigation.push("Categorie", {
-        categorieName: nameCategorie,
-        slug: slugCategorie,
-        categorieId: categorie_id,
-      });
+      returnCategorie();
     });  
   }
-
   const recupCategories = async (arg) => {
     // setChamps([]);
     const token = await USER_TOKEN;
@@ -71,7 +74,6 @@ const NewEntryBudgetScreen =  ({ route }) => {
     recupCategories();
   }, []);
 
-  console.log(nameCategorie)
     fieldsList.map((field) => {
       const index = champs.findIndex((object) => object.id === field.id);
         if(categorie_id == field.field_category_id){
@@ -145,8 +147,8 @@ const NewEntryBudgetScreen =  ({ route }) => {
         <CustomButton onPress={OnAddToBudgetPress} text={"Ajouter au budget"} />
 
         <CustomButton
-          onPress={""}
-          text={"Retour à la connexion"}
+          onPress={() => navigation.goBack()}
+          text={"Annuler"}
           type="TERTIARY"
         />
       </View>

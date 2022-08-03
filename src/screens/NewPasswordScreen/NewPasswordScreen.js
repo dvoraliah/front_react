@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   root: {
     padding: 10,
     alignItems: "center",
-    backgroundColor: "#f5b7b1",
+    // backgroundColor: "#f5b7b1",
   },
   title: {
     textTransform: "uppercase",

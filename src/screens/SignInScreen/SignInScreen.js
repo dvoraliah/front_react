@@ -80,6 +80,7 @@ const SignInScreen = () => {
           secureTextEntry={true}
         />
         <CustomButton onPress={onSignInPress} text={"Se connecter"} />
+        <CustomButton onPress={onNewAccountPress} text={"S'enregistrer"} />
 
         <CustomButton
           onPress={onForgotPassPress}
@@ -88,8 +89,6 @@ const SignInScreen = () => {
         />
 
         {/* <SocialSignInButtons /> */}
-
-
       </View>
     </ScrollView>
   );
@@ -100,7 +99,7 @@ export default SignInScreen
 const styles = StyleSheet.create({
   root: {
     padding: 10,
-    backgroundColor: "#f5b7b1",
+    // backgroundColor: "#f5b7b1",
   },
   logo: {
     width: "100%",

@@ -55,6 +55,13 @@ const styles = StyleSheet.create({
   container_SOCIALCONNECT: {
     borderWidth: 0,
   },
+  container_ADD: {
+    backgroundColor: "green",
+    borderRadius: 100,
+  },
+  container_DELETE: {
+    borderWidth: 0,
+  },
 
   text: {
     fontWeight: "bold",
@@ -75,6 +82,13 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#e5e7e9",
     textTransform: "none",
+    // fontStyle: "italic",
+  },
+  text_DELETE: {
+    fontWeight: "500",
+    fontSize: 30,
+    color: "red",
+    textTransform: "uppercase",
     // fontStyle: "italic",
   },
 });

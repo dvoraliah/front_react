@@ -18,7 +18,7 @@ const Navigation = () => {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      background: "#f5b7b1",
+      background: "#caf9be",
     },
   };
     return (
@@ -42,6 +42,6 @@ export default Navigation
 const styles = StyleSheet.create({
   root: {
     padding: 10,
-    backgroundColor: "#f5b7b1",
+    backgroundColor: "#caf9be",
   },
 });

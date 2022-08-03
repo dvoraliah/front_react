@@ -1,73 +1,132 @@
 import React, {useState, useEffect} from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import CustomButton from "../CustomButton"
 import { DataTable } from "react-native-paper";
 import { USER_ID, USER_TOKEN, API } from "../../services/env";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 
 const optionsPerPage = [2, 3, 4];
 
-const CustomTable = ({ budgets, idCategorie}) => {
+const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie}) => {
   
-  // console.log(idCategorie)
   const [page, setPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
+  const addIcon = <Icon name="plus" size={60} color="#fff" />;
+  const deleteIcon = <Icon name="trash" size={30} color="red" />;
   const [user_id, setUserId] = useState("");
+  const [token, setToken] = useState("");
   const navigation = useNavigation();
+  const returnCategorie = () => {
+    navigation.push("Categorie", {
+        categorieName: categorieName,
+        slug: slugCategorie,
+        categorieId: idCategorie,
+    })
+  };
   var totalSomme = 0;
-  const getUserId = async() => {
+  const fillUserValues = async () => {
+    setToken(await USER_TOKEN)
     setUserId(await USER_ID);
-    // console.log(user_id);
   }
-  getUserId();
+  fillUserValues();
 
+  /* Récupère les valeurs des champs pour créer le total des revenus */
   budgets.map((budget) => {
     if (budget.field.field_category_id == idCategorie) {
       totalSomme = (parseFloat(totalSomme) + parseFloat(budget.value))
     }
   })
-  const onNewEntryPress = async () => {
-    setUserId(await USER_ID);
+  /* Lorsque l'utilisateur appuie sur nouvelle entrée il est renvoyé vers la page d'ajout */
+  const onNewEntryPress = () => {
     navigation.navigate("NewEntry", {
       user_id: user_id,
       categorie_id: idCategorie,
     });
   };
 
+  /* Lorsque l'utilisateur appuie sur la valeur de is_debited elle change pour la valeur donnée en param (boolean), l'utilisateur est ensuite redirigé vers la page de la catégorie d'où il vient. */
   const onDebitedPress = async (id, value) => {
-    // console.warn(id)
-    const token = await USER_TOKEN;
     const URI = API + "budgets/" + id;
-    //FAIRE LE RELOAD DE LA PAGE
     const response = await axios({
       method: "put",
       url: URI,
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer 1|aIU9qWxRucCX07iauIygbsN24g1dhJjjdwduORhH`,
       },
       data:{
         is_debited: value,
       }
-    }).then(function async(response) {
-      console.warn(URI);
+    }).then(function () {
+      returnCategorie()
     });
   }
+
+  /* Methode pour supprimer une ligne du budget */
+  const onDeletePress = async (id) => {
+      Alert.alert("Confirmer", "Voulez-vous vraiment supprimer cette valeur ? ", [
+        {
+          text: "Oui",
+          onPress: async () => {
+            const URI = API + "budgets/" + id;
+            const response = await axios.delete(URI, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+              .then(function () {
+                returnCategorie();
+              });
+          },
+        },
+        {
+          text: "Non",
+          onPress: "",
+          style: "cancel",
+        },
+      ]);
+  };
+
+  const onValuePress = (id) =>{
+    Alert.prompt("Saisir la nouvelle valeur", "", [
+      {
+        text: "Annuler",
+        onPress: () => {""},
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: async (value) => {
+          const URI = API + "budgets/" + id;
+          const response = await axios({
+            method: "put",
+            url: URI,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            data: {
+              value: value,
+            },
+          }).then(function () {
+            returnCategorie();
+          });
+        },
+      },
+    ]);
+  }
+
 
     
 
   useEffect(() => {
-    
     setPage(0);
   }, [itemsPerPage]);
 
-  // console.log(user_id)
   return (
     <DataTable>
       <DataTable.Header>
-        {/* <DataTable.Title>Date</DataTable.Title> */}
         <DataTable.Title>Achat</DataTable.Title>
 
         <DataTable.Title numeric>Montant</DataTable.Title>
@@ -96,27 +155,25 @@ const CustomTable = ({ budgets, idCategorie}) => {
                 </DataTable.Cell>
                 <DataTable.Cell key={budget.id + budget.value} numeric>
                   <CustomButton
-                    onPress={() => {
-                      console.warn("pouet");
-                    }}
+                    onPress={() => onValuePress(budget.id)}
                     text={budget.value}
                     type={"CELL"}
                   />
                 </DataTable.Cell>
                 <DataTable.Cell key={budget.id + budget.is_debited} numeric>
                   <CustomButton
-                    onPress={() => onDebitedPress(budget.id, budget.is_debited == 1 ? 0 : 1)}
+                    onPress={() =>
+                      onDebitedPress(budget.id, budget.is_debited == 1 ? 0 : 1)
+                    }
                     text={budget.is_debited == 1 ? "Oui" : "Non"}
                     type={"CELL"}
                   />
                 </DataTable.Cell>
                 <DataTable.Cell key={budget.id + " delete"} numeric>
                   <CustomButton
-                    onPress={() => {
-                      console.warn("pouet");
-                    }}
-                    text={"X"}
-                    // type={"CELL"}
+                    onPress={() => onDeletePress(budget.id)}
+                    text={deleteIcon}
+                    type={"DELETE"}
                   />
                 </DataTable.Cell>
               </DataTable.Row>
@@ -124,27 +181,25 @@ const CustomTable = ({ budgets, idCategorie}) => {
           );
         }
       })}
-      <DataTable.Row>
+      <DataTable.Row style={{ borderBottomWidth: 0 }}>
         <DataTable.Cell>
           {" "}
           Total des {idCategorie == 1 ? "Revenus" : "Depense"}
         </DataTable.Cell>
-    <DataTable.Cell numeric>{totalSomme}</DataTable.Cell>
+        <DataTable.Cell numeric>{totalSomme}</DataTable.Cell>
       </DataTable.Row>
 
-      <DataTable.Row>
-        <DataTable.Cell numeric></DataTable.Cell>
-        <DataTable.Cell>
-          <CustomButton onPress={onNewEntryPress} text={"Nouvelle entrée"} />
+      <DataTable.Row style={{ borderBottomWidth: 0 }}>
+        <DataTable.Cell textStyle={{ marginRight: "auto", marginLeft: "auto", marginTop: 50, height:75, width:75 }}>
+          <CustomButton onPress={onNewEntryPress} text={addIcon} type={"ADD"} />
         </DataTable.Cell>
-        <DataTable.Cell numeric></DataTable.Cell>
       </DataTable.Row>
 
       <DataTable.Pagination
         page={page}
         numberOfPages={3}
         onPageChange={(page) => setPage(page)}
-        label="1-2 of 6"
+        label=""
         optionsPerPage={optionsPerPage}
         itemsPerPage={itemsPerPage}
         setItemsPerPage={setItemsPerPage}
