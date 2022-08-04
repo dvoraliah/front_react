@@ -62,6 +62,12 @@ const styles = StyleSheet.create({
   container_DELETE: {
     borderWidth: 0,
   },
+  container_RESUME: {
+    borderColor: "#5b712c",
+    borderWidth: 2,
+    height: 100,
+    justifyContent: "center",
+  },
 
   text: {
     fontWeight: "bold",
@@ -90,5 +96,8 @@ const styles = StyleSheet.create({
     color: "red",
     textTransform: "uppercase",
     // fontStyle: "italic",
+  },
+  text_RESUME: {
+    fontSize: "50%",
   },
 });

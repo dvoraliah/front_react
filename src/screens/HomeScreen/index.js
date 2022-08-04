@@ -9,7 +9,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = ({route }) => {
   const { username } = route.params;
-
+  const [actualMonth, setMonth] = useState(new Date().getMonth());
+  const [actualYear, setYear] = useState(new Date().getFullYear());
   const [dataCategories, setDataCategories] = useState([]);
   const navigation = useNavigation();
   const URI = API + "categories"
@@ -55,16 +56,36 @@ const HomeScreen = ({route }) => {
         <CustomButton onPress={goBackSignPress} text={"Déconnexion"} />
         <Text style={{ fontSize: 20, alignContent: "center" }}>Catégories</Text>
 
+        {
+        dataCategories.map((categorie) => {
+          if(categorie.slug == "resume"){
+            return (
+              <CustomButton
+                key={categorie.slug.toString()}
+                onPress={() =>
+                  categorieOnPress(categorie.name, categorie.slug, categorie.id)
+                }
+                text={categorie.name}
+                fgColor="#5b712c"
+                type="RESUME"
+              />
+            );
+          }
+              
+        })}
         {dataCategories.map((categorie) => {
-          return (
-            <CustomButton
-              key={categorie.slug.toString()}
-              onPress={() =>
-                categorieOnPress(categorie.name, categorie.slug, categorie.id)
-              }
-              text={categorie.name}
-            />
-          );
+          if(categorie.slug != "resume"){
+            return (
+              <CustomButton
+                key={categorie.slug.toString()}
+                onPress={() =>
+                  categorieOnPress(categorie.name, categorie.slug, categorie.id)
+                }
+                text={categorie.name}
+              />
+            );
+          }
+              
         })}
       </View>
     );
@@ -74,6 +95,5 @@ export default HomeScreen
 const styles = StyleSheet.create({
   root: {
     padding: 10,
-    // backgroundColor: "#f5b7b1",
   },
 });
