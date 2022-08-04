@@ -7,9 +7,9 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
+const HomeScreen = ({route }) => {
+  const { username } = route.params;
 
-
-const HomeScreen = () => {
   const [dataCategories, setDataCategories] = useState([]);
   const navigation = useNavigation();
   const URI = API + "categories"
@@ -23,8 +23,10 @@ const HomeScreen = () => {
       categorieName: name, slug: slug, categorieId : id
     });
   }
+  
   const getCategories = async() => {
     const token = await AsyncStorage.getItem("token");
+    
     const response = await axios({
       method: "get",
       url: URI,
@@ -47,23 +49,23 @@ const HomeScreen = () => {
     return (
       <View style={styles.root}>
         <Text style={{ fontSize: 24, alignContent: "center" }}>
-          Accueil de l'utilisateur Authentifié
+          Bienvenue {username}
+
         </Text>
-        <CustomButton
-          onPress={goBackSignPress}
-          text={"Déconnexion"}
-        />
-        <Text style={{ fontSize: 20, alignContent: "center"}}>
-          Catégories
-        </Text>
-        
+        <CustomButton onPress={goBackSignPress} text={"Déconnexion"} />
+        <Text style={{ fontSize: 20, alignContent: "center" }}>Catégories</Text>
+
         {dataCategories.map((categorie) => {
-          // console.log(categorie.slug)
           return (
-            <CustomButton key={categorie.slug.toString()}onPress={() => categorieOnPress(categorie.name,categorie.slug, categorie.id)} text={categorie.name} />
+            <CustomButton
+              key={categorie.slug.toString()}
+              onPress={() =>
+                categorieOnPress(categorie.name, categorie.slug, categorie.id)
+              }
+              text={categorie.name}
+            />
           );
         })}
-        
       </View>
     );
 }

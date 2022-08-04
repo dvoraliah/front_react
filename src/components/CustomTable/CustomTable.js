@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const optionsPerPage = [2, 3, 4];
 
-const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie}) => {
+const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie, actualMonth}) => {
 
   const [page, setPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
@@ -37,7 +37,7 @@ const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie}) => {
 
   /* Récupère les valeurs des champs pour créer le total des revenus */
   budgets.map((budget) => {
-    if (budget.field.field_category_id == idCategorie) {
+    if ((budget.field.field_category_id == idCategorie) && (budget.month == actualMonth)) {
       totalSomme = (parseFloat(totalSomme) + parseFloat(budget.value))
     }
   })
@@ -139,7 +139,8 @@ const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie}) => {
       </DataTable.Header>
 
       {budgets.map((budget) => {
-        if (budget.field.field_category_id == idCategorie) {
+
+        if ((budget.field.field_category_id == idCategorie) && (budget.month == actualMonth)) {
           return (
             <>
               <DataTable.Row key={budget.id}>

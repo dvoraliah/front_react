@@ -30,7 +30,7 @@ const SignUpScreen = () => {
     }).then(function (response) {
       AsyncStorage.setItem("token", response.data.token);
       AsyncStorage.setItem("user_id", response.data.donnees.id.toString());
-      navigation.navigate('Home');
+      navigation.navigate("Home", { username: username });
     });  
   // console.warn("Enregistrer "+ username + " " + email + " " + password + " " + confirmPassword)
   }

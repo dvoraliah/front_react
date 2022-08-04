@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, StyleSheet} from 'react-native'
+import { View, Text, StyleSheet, Link} from 'react-native'
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from "@react-navigation/native";
 import { API, USER_TOKEN} from "../../services/env";
@@ -13,13 +13,33 @@ import moment from "moment";
 
 const CategorieScreen = ({route}) => {
   // console.warn(USER_TOKEN)
-  const [actualMonth, setActualMonth] = useState(moment().format("MMMM"));
+  // const [actualMonth, setActualMonth] = useState(moment().format("MMMM"));
+  const monthString = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+  const [actualMonth, setMonth] = useState(new Date().getMonth());
+  
   const { categorieName, slug, categorieId } = route.params;
   // console.log(categorieId)
   // const [FIELDS, SETFIELDS] = useState([])
   const [BUDGETS, SETBUDGETS] = useState([])
-    const leftIcon = <Icon name="caret-left" size={30} color="red" />;
-    const rightIcon = <Icon name="caret-right" size={30} color="red" />;
+  const changeMonth = (type) => {
+    if(type == "ADD"){
+      if (actualMonth < 11) {
+        setMonth(actualMonth + 1);
+      } else {
+        setMonth(0);
+      }
+    }
+    if (type == "SUBT") {
+      if (actualMonth > 0) {
+        setMonth(actualMonth - 1);
+      }else {
+        setMonth(11)
+      }
+    }
+    
+    
+  }
+
 
   const BUDGETSDetail = async () => {
     const token = await AsyncStorage.getItem("token");
@@ -56,22 +76,33 @@ const navigation = useNavigation();
         />
 
         {/* {console.log(FIELDS)} */}
-        <Text style={styles.title}>
-          {/* <CustomButton
-            onPress={""}
-            text={leftIcon}
-          /> */}
-          {actualMonth}
-          {/* <CustomButton
-            onPress={""}           
-            text={rightIcon}
-          /> */}
-        </Text>
+        <View style={styles.date}>
+          <Icon.Button
+            name="caret-left"
+            size={30}
+            color="#5b712c"
+            backgroundColor="#E6F8E0"
+            onPress={() => changeMonth("SUBT")}
+          />
+          <Text style={{ fontSize: 24, fontWeight: "bold", textTransform:"uppercase" }}>
+            {/* {actualMonth == 0 ? setActualMonth(12) : ""} */}
+            {monthString[actualMonth]}
+            
+          </Text>
+          <Icon.Button
+            name="caret-right"
+            size={30}
+            color="#5b712c"
+            backgroundColor="#E6F8E0"
+            onPress={() => changeMonth("ADD")}
+          />
+        </View>
         <CustomTable
           budgets={BUDGETS}
           idCategorie={categorieId}
           categorieName={categorieName}
           slugCategorie={slug}
+          actualMonth={actualMonth + 1}
         />
       </View>
     );
@@ -90,6 +121,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     margin: 10,
+  },
+  date: {
+    textTransform: "uppercase",
+    fontSize: 24,
+    fontWeight: "bold",
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+    flexDirection:"row",
+    flexWrap: "nowrap"
   },
   text: {
     color: "#fff",

@@ -16,14 +16,12 @@ const SignInScreen = () => {
   const [password, setPassword] = useState('');
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
-  const saveToken =  async ( token, user_id ) => {
+  const saveToken =  async ( token, user_id, pseudo ) => {
     try {
       // console.warn(token);
       AsyncStorage.setItem("token", token);
       AsyncStorage.setItem("user_id", user_id.toString());
-      // console.log(US)
-      // console.warn(USER_TOKEN);
-      navigation.navigate('Home')
+      navigation.navigate('Home', {username: pseudo})
     } catch (error) {
       // console.warn(error)
     }
@@ -44,14 +42,13 @@ const SignInScreen = () => {
         },
       }).then((response) => {
         //Si la response à la requête est acceptée par l'API, l'utilisateur est redirigé vers la page d'accueil.
-        // console.warn(state)        
+               
         response.status == 201
           ? saveToken(
               response.data.token,
-              response.data.user.id
-            ) /* navigation.navigate('Home', {
-            token : response.data.token,
-          })  */
+              response.data.user.id,
+              response.data.user.name
+            ) 
           : {};
         
       });
