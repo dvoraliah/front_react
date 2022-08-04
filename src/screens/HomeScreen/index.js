@@ -9,6 +9,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = ({route }) => {
   const { username } = route.params;
+  const monthString = [
+    "janvier",
+    "février",
+    "mars",
+    "avril",
+    "mai",
+    "juin",
+    "juillet",
+    "août",
+    "septembre",
+    "octobre",
+    "novembre",
+    "décembre",
+  ];
   const [actualMonth, setMonth] = useState(new Date().getMonth());
   const [actualYear, setYear] = useState(new Date().getFullYear());
   const [dataCategories, setDataCategories] = useState([]);
@@ -63,9 +77,9 @@ const HomeScreen = ({route }) => {
               <CustomButton
                 key={categorie.slug.toString()}
                 onPress={() =>
-                  categorieOnPress(categorie.name, categorie.slug, categorie.id)
+                  navigation.navigate("Resume", {dataCategories})
                 }
-                text={categorie.name}
+                text={categorie.name +" "+ monthString[actualMonth] + " " + actualYear}
                 fgColor="#5b712c"
                 type="RESUME"
               />

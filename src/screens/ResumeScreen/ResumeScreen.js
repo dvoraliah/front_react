@@ -4,7 +4,7 @@ import CustomButton from '../../components/CustomButton';
 import { useNavigation } from "@react-navigation/native";
 import { API, USER_TOKEN} from "../../services/env";
 import axios from "axios";
-import CustomTable from "../../components/CustomTable";
+import CustomTableResume from "../../components/CustomTableResume";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
 import moment from "moment";
@@ -12,14 +12,12 @@ import moment from "moment";
 
 
 const CategorieScreen = ({route}) => {
-  // console.warn(route.params)
-
+  const categories = route.params
+  /* Variables pour la navigations entre les mois */
   const monthString = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
   const [actualMonth, setMonth] = useState(new Date().getMonth());
   const [actualYear, setYear] = useState(new Date().getFullYear());
   const [username, setUsername] = useState('')
-  
-  const { categorieName, slug, categorieId } = route.params;
   const [BUDGETS, SETBUDGETS] = useState([]);
   const changeMonth = (type) => {
     if(type == "ADD"){
@@ -67,7 +65,7 @@ const CategorieScreen = ({route}) => {
 const navigation = useNavigation();
     return (
       <View>
-        <Text style={styles.title}>Accueil categorie {categorieName}</Text>
+        <Text style={styles.title}>Résumé</Text>
         <CustomButton
           onPress={() => {
             navigation.navigate("Home", {username: username});
@@ -108,11 +106,12 @@ const navigation = useNavigation();
             onPress={() => changeMonth("ADD")}
           />
         </View>
-        <CustomTable
+        <CustomTableResume
           budgets={BUDGETS}
-          idCategorie={categorieId}
-          categorieName={categorieName}
-          slugCategorie={slug}
+          categories={categories.dataCategories}
+          idCategorie={1}
+          categorieName={"resume"}
+          slugCategorie={"résumé"}
           actualMonth={actualMonth + 1}
           actualYear={actualYear}
         />

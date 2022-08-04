@@ -98,6 +98,6 @@ const styles = StyleSheet.create({
     // fontStyle: "italic",
   },
   text_RESUME: {
-    fontSize: "50%",
+    fontSize: "25%",
   },
 });
