@@ -17,7 +17,7 @@ const SignUpScreen = () => {
     
   const onSignUpPress = async () => {
     const URI = API + "register";
-    console.log(URI)
+    // console.log(URI)
     const response = await axios({
       method: "post",
       url: URI,
@@ -27,11 +27,32 @@ const SignUpScreen = () => {
         password: password,
         password_confirmation: confirmPassword,
       },
-    }).then(function (response) {
-      AsyncStorage.setItem("token", response.data.token);
-      AsyncStorage.setItem("user_id", response.data.donnees.id.toString());
-      navigation.navigate("Home", { username: username });
-    });  
+    })
+      .then( async (response) => {
+        AsyncStorage.setItem("token", response.data.token);
+        AsyncStorage.setItem("user_id", response.data.donnees.id.toString());
+        // 
+        const token = await AsyncStorage.getItem("token");
+        const userId = await AsyncStorage.getItem("user_id");
+        const budgetsFirst = API + "budgets";
+        const first = await axios({
+          method: "post",
+          url: budgetsFirst,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          data: {
+            value: 0,
+            field_id: 6,
+            id_user: userId,
+            month: 1,
+            year: 1900,
+          },
+        });
+
+        navigation.navigate("Home", { username: username });
+
+      });  
   // console.warn("Enregistrer "+ username + " " + email + " " + password + " " + confirmPassword)
   }
 

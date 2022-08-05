@@ -56,6 +56,7 @@ const CategorieScreen = ({route}) => {
       },
     }).then(function (response) {
       SETBUDGETS(response.data);
+      
       setUsername(response.data[0].user.name)
     });
   };
