@@ -1,21 +1,42 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 
 const CustomButton = ({ onPress, text, type = "PRIMARY", bgColor, fgColor}) => {
+  const [clicked, setClicked] = useState(false)
+
+  const clickedButton = () => {
+    
+    if (clicked == false) {
+      setClicked(true);
+      setTimeout(() => {
+        setClicked(false);
+        // console.warn(clicked);
+      }, 1000);
+      onPress()
+    }
+  }
     return (
       <Pressable
-        onPress={onPress}
+        onPress={clickedButton}
         style={[
           styles.container,
           styles[`container_${type}`],
           bgColor ? { backgroundColor: bgColor } : {},
+          clicked == true
+            ? {
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.2,
+                shadowRadius: 10,
+              }
+            : {},
         ]}
       >
         <Text
           style={[
             styles.text,
             styles[`text_${type}`],
-            fgColor ? { color : fgColor } : {},
+            fgColor ? { color: fgColor } : {},
           ]}
         >
           {text}

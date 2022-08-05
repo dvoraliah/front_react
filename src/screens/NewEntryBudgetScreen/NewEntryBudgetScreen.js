@@ -111,7 +111,9 @@ const NewEntryBudgetScreen =  ({ route }) => {
           value={value}
           setValue={setMontant}
         />
-        <Text style={styles.labelDate}>Date de Dépense</Text>
+        <Text style={styles.labelDate}>
+          Date de {categorie_id == 1 ? "Revenu" : "Dépense"}
+        </Text>
         <DatePicker
           style={styles.datePickerStyle}
           date={dateExpense} //initial date from state
@@ -143,7 +145,9 @@ const NewEntryBudgetScreen =  ({ route }) => {
           onValueChange={setChecked}
           color={isDebited ? "green" : undefined}
         />
-        <Text style={styles.checkboxLabel}>Débité</Text>
+        <Text style={styles.checkboxLabel}>
+          {categorie_id == 1 ? "Encaissé" : "Débité"}
+        </Text>
 
         <CustomButton onPress={OnAddToBudgetPress} text={"Ajouter au budget"} />
 

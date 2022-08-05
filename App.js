@@ -1,9 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, LogBox } from "react-native";
 
 import Navigation from "./src/navigation"
 
+
 const App = () => {
+  // LogBox.ignoreLogs(["Warning: ..."]);
+  LogBox.ignoreAllLogs();
   return (
     <SafeAreaView style={styles.root}>
       <Navigation />

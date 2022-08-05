@@ -42,7 +42,6 @@ const SignInScreen = () => {
         },
       }).then((response) => {
         //Si la response à la requête est acceptée par l'API, l'utilisateur est redirigé vers la page d'accueil.
-               
         response.status == 201
           ? saveToken(
               response.data.token,

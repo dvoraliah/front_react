@@ -76,10 +76,7 @@ const CustomTableResume = ({ budgets, categories, idCategorie, categorieName, sl
 
   return (
     <DataTable>
-      <DataTable.Header>
-        <DataTable.Title>Categorie</DataTable.Title>
-        <DataTable.Title numeric>field</DataTable.Title>
-      </DataTable.Header>
+
 
       {categories.map((categorie) => {
         if (categorie.slug != "resume") {
@@ -123,7 +120,7 @@ const CustomTableResume = ({ budgets, categories, idCategorie, categorieName, sl
               : { color: "green" }
           }
         >
-          {parseFloat(revenus) - parseFloat(depenses)}
+          {Math.round((parseFloat(revenus) - parseFloat(depenses))*100)/100}
         </DataTable.Cell>
       </DataTable.Row>
 

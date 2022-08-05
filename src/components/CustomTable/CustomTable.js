@@ -129,7 +129,6 @@ const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie, actua
   return (
     <DataTable>
       <DataTable.Header>
-        <DataTable.Title>Date</DataTable.Title>
         <DataTable.Title numeric>Achat</DataTable.Title>
         <DataTable.Title numeric>Montant</DataTable.Title>
         <DataTable.Title numeric>
@@ -148,9 +147,6 @@ const CustomTable = ({ budgets, idCategorie, categorieName, slugCategorie, actua
           return (
             <>
               <DataTable.Row key={budget.id}>
-                <DataTable.Cell>
-                  {budget.month + "/" + budget.year}
-                </DataTable.Cell>
                 <DataTable.Cell
                   textStyle={styles.align}
                   key={budget.id + budget.field_id}
